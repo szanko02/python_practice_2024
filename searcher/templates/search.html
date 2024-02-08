@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <form action="/search" method="get">
+        <label for="query">Enter your search query:</label>
+        <input type="text" id="query" name="query">
+        <input type="submit" value="Search">
+    </form>
+    <hr>
+    {% if results %}
+        <ul>
+        {% for hit in results %}
+            <li>
+                <h3>{{ hit._source.iD }}</h3>
+                <p>{{ hit._source.text }}</p>
+                <p>Created: {{ hit._source.created_date }}</p>
+                <p>Rubrics: {{ hit._source.rubrics }}</p>
+                <button onclick="deleteDocument('{{ hit._id }}')">Delete</button>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found</p>
+    {% endif %}
+
+    <script>
+        function deleteDocument(docId) {
+            fetch(`/delete/${docId}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Document deleted successfully');
+                } else {
+                    console.log('Failed to delete document');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

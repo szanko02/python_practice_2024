@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Posts</title>
+</head>
+<body>
+    <h1>Search Posts</h1>
+    <form action="/search" method="get">
+        <label for="query">Enter your search query:</label>
+        <input type="text" id="query" name="query">
+        <input type="submit" value="Search">
+    </form>
+    <form action="/index_data" method="post">
+        <button type="submit">Index data</button>
+    </form>
+    <script>
+        function indexData() {
+            fetch("/index_data")
+                .then(response => response.json())
+                .then(data => console.log(data.message))
+                .catch(error => console.error(error));
+        }
+        </script>
+</body>
+</html>
